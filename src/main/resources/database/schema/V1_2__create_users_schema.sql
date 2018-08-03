@@ -1,0 +1,39 @@
+CREATE SCHEMA access;
+
+DROP SEQUENCE IF EXISTS users_seq_pk CASCADE;
+CREATE SEQUENCE users_seq_pk
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 2147483647
+START WITH 1
+CACHE 1
+NO CYCLE;
+
+CREATE TABLE IF NOT EXISTS access.users (
+  user_id BIGINT NOT NULL DEFAULT nextval('users_seq_pk'),
+  login VARCHAR(50) NOT NULL,
+  password VARCHAR(250) NOT NULL,
+  enabled  BOOLEAN NOT NULL,
+  CONSTRAINT  user_pk PRIMARY KEY (user_id),
+  CONSTRAINT login_unique UNIQUE (login)
+);
+
+DROP SEQUENCE IF EXISTS roles_seq_pk CASCADE;
+CREATE SEQUENCE roles_seq_pk
+INCREMENT BY 1
+MINVALUE 0
+MAXVALUE 2147483647
+START WITH 1
+CACHE 1
+NO CYCLE;
+CREATE TABLE IF NOT EXISTS access.roles (
+  role_id BIGINT NOT NULL DEFAULT nextval('roles_seq_pk'),
+  role VARCHAR(50) NOT NULL,
+  CONSTRAINT  role_pk PRIMARY KEY (role_id),
+  CONSTRAINT role_unique UNIQUE (role)
+);
+
+ALTER TABLE access.users ADD COLUMN role_id BIGINT NOT NULL DEFAULT 1;
+ALTER TABLE access.users ALTER COLUMN role_id DROP DEFAULT;
+ALTER TABLE access.users ADD CONSTRAINT user_role_id FOREIGN KEY (role_id) REFERENCES access.roles (role_id);
+
