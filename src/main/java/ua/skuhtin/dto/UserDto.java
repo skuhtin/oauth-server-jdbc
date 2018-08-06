@@ -1,8 +1,15 @@
 package ua.skuhtin.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import ua.skuhtin.model.Groups;
+import ua.skuhtin.model.Roles;
+import ua.skuhtin.model.Users;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserDto implements Serializable {
 
@@ -12,17 +19,25 @@ public class UserDto implements Serializable {
     private String password;
     @ApiModelProperty(required = true)
     private boolean enabled;
-    @ApiModelProperty(required = true)
-    private Long roleId;
+
+    private Set<RolesDto> roles;
 
     public UserDto() {
     }
 
-    public UserDto(String login, String password, boolean enabled, Long roleId) {
+    public UserDto(String login, String password, boolean enabled) {
         this.login = login;
         this.password = password;
         this.enabled = enabled;
-        this.roleId = roleId;
+    }
+
+    public UserDto(Users users) {
+        this.login = users.getLogin();
+        this.password = users.getPassword();
+        this.enabled = users.getEnabled();
+        Set<Roles> roles = new HashSet<>();
+        users.getGroups().stream().map(Groups::getRoles).forEach(roles::addAll);
+        this.roles = roles.stream().map(RolesDto::new).collect(Collectors.toSet());
     }
 
     public String getLogin() {
@@ -49,11 +64,12 @@ public class UserDto implements Serializable {
         this.enabled = enabled;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    @JsonIgnore
+    public Set<RolesDto> getRoles() {
+        return roles;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoles(Set<RolesDto> roles) {
+        this.roles = roles;
     }
 }

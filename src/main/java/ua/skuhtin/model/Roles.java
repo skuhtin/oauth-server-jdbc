@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "roles", schema = "access")
 @DynamicUpdate
-public class Roles implements Serializable {
+public class Roles {
     @Id
     @SequenceGenerator(name = "roles_seq", schema = "public", catalog = "sequences", sequenceName = "roles_seq_pk", allocationSize = 1)
     @GeneratedValue(generator = "roles_seq", strategy = GenerationType.SEQUENCE)
@@ -39,5 +39,20 @@ public class Roles implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Roles roles = (Roles) o;
+
+        return roleId.equals(roles.roleId);
+    }
+
+    @Override
+    public int hashCode() {
+        return roleId.hashCode();
     }
 }

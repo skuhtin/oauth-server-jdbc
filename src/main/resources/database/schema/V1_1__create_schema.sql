@@ -49,3 +49,4 @@ CREATE TABLE oauth_refresh_token
   authentication BYTEA
 );
 CREATE UNIQUE INDEX token_id_uq_ref ON oauth_refresh_token (token_id);
+

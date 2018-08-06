@@ -21,7 +21,6 @@ public class UserDtoToUserConverter implements Converter<UserDto, Users> {
         user.setLogin(context.getSource().getLogin());
         user.setPassword(encoder.encode(context.getSource().getPassword()));
         user.setEnabled(context.getSource().isEnabled());
-        user.setRoleId(context.getSource().getRoleId());
         return user;
     }
 }

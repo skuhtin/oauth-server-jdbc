@@ -4,22 +4,23 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.skuhtin.model.Roles;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseModel implements Serializable {
     private String login;
-    private Roles userRoles;
+    private Set<String> userRoles;
     private String message;
 
     public ResponseModel() {
     }
 
-    public ResponseModel(String login, Roles userRoles) {
+    public ResponseModel(String login, Set<String> userRoles) {
         this.login = login;
         this.userRoles = userRoles;
     }
 
-    public ResponseModel(String login, Roles userRoles, String message) {
+    public ResponseModel(String login, Set<String> userRoles, String message) {
         this.login = login;
         this.userRoles = userRoles;
         this.message = message;
@@ -37,11 +38,11 @@ public class ResponseModel implements Serializable {
         this.login = login;
     }
 
-    public Roles getUserRoles() {
+    public Set<String> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Roles userRoles) {
+    public void setUserRoles(Set<String> userRoles) {
         this.userRoles = userRoles;
     }
 

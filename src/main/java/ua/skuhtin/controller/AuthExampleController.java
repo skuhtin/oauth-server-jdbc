@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.skuhtin.dto.ResponseModel;
+import ua.skuhtin.dto.RolesDto;
 import ua.skuhtin.dto.UserDto;
 import ua.skuhtin.model.Users;
 import ua.skuhtin.repository.UserRepository;
 import ua.skuhtin.security.SecurityUser;
+
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthExampleController {
@@ -38,7 +41,7 @@ public class AuthExampleController {
     public ResponseEntity<ResponseModel> getSecuredResponse() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRole(), "secured");
+        ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRoles(), "secured");
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 

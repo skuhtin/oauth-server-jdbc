@@ -3,6 +3,7 @@ package ua.skuhtin.model;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "access")
@@ -23,21 +24,19 @@ public class Users {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @Column(name = "role_id")
-    private Long roleId;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
-    private Roles roles;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_groups", schema = "access",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "group_id"))
+    private Set<Groups> groups;
 
     public Users() {
     }
 
-    public Users(String login, String password, Boolean enabled, Long roleId) {
+    public Users(String login, String password, Boolean enabled) {
         this.login = login;
         this.password = password;
         this.enabled = enabled;
-        this.roleId = roleId;
     }
 
     public Long getUserId() {
@@ -72,15 +71,11 @@ public class Users {
         this.enabled = enabled;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Set<Groups> getGroups() {
+        return groups;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Roles getRoles() {
-        return roles;
+    public void setGroups(Set<Groups> groups) {
+        this.groups = groups;
     }
 }
