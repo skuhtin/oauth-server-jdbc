@@ -34,11 +34,19 @@ public class AuthExampleController {
     }
 
     @ApiOperation(value = "for Admin role only")
-    @RequestMapping(value = "/secure", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> getSecuredResponse() {
+    @RequestMapping(value = "/secure/admin", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> getAdminSecuredResponse() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRoles(), "secured");
+        ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRoles(), "admin secured");
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+    }
+    @ApiOperation(value = "for User role only")
+    @RequestMapping(value = "/secure/user", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> getUserSecuredResponse() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRoles(), "user secured");
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
