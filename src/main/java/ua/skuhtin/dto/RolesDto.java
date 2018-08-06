@@ -4,7 +4,7 @@ import ua.skuhtin.model.Roles;
 
 import java.io.Serializable;
 
-public class RolesDto implements Serializable{
+public class RolesDto implements Serializable {
 
     private Long roleId;
 
@@ -22,7 +22,6 @@ public class RolesDto implements Serializable{
         this.roleId = roles.getRoleId();
         this.role = roles.getRole();
     }
-
 
 
     public Long getRoleId() {

@@ -41,6 +41,7 @@ public class AuthExampleController {
         ResponseModel responseModel = new ResponseModel(securityUser.getUsername(), securityUser.getRoles(), "admin secured");
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
+
     @ApiOperation(value = "for User role only")
     @RequestMapping(value = "/secure/user", method = RequestMethod.GET)
     public ResponseEntity<ResponseModel> getUserSecuredResponse() {

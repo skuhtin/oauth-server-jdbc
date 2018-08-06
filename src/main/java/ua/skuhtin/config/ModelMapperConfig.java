@@ -10,8 +10,13 @@ import ua.skuhtin.config.converter.UserDtoToUserConverter;
 
 @Configuration
 public class ModelMapperConfig {
+
+    private final PasswordEncoder encoder;
+
     @Autowired
-    private PasswordEncoder encoder;
+    public ModelMapperConfig(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Bean
     public ModelMapper modelMapper() {

@@ -28,7 +28,7 @@ public class OAuthClientConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (Objects.isNull(this.clientCredentials)){
+        if (Objects.isNull(this.clientCredentials)) {
             throw new RuntimeException();
         }
     }

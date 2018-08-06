@@ -1,7 +1,6 @@
 package ua.skuhtin.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ua.skuhtin.model.Roles;
 
 import java.io.Serializable;
 import java.util.Set;

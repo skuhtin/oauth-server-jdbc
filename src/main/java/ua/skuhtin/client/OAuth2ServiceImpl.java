@@ -37,7 +37,7 @@ public class OAuth2ServiceImpl extends AbstractOauth2Service {
 
     @Override
     public ResponseEntity<HttpStatus> logOut(String token) {
-        ResponseEntity responseEntity =  oauthRestTemplate.getForEntity(oauthServer + "/oauth/logout/" + token, Object.class);
+        ResponseEntity responseEntity = oauthRestTemplate.getForEntity(oauthServer + "/oauth/logout/" + token, Object.class);
         return responseEntity;
     }
 }

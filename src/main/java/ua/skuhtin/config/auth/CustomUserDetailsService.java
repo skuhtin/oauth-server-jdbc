@@ -17,7 +17,6 @@ import ua.skuhtin.repository.UserRepository;
 import ua.skuhtin.security.SecurityUser;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {

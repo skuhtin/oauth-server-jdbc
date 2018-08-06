@@ -3,7 +3,6 @@ package ua.skuhtin.model;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "roles", schema = "access")
@@ -19,10 +18,6 @@ public class Roles {
     private String role;
 
     public Roles() {
-    }
-
-    public Roles(String role) {
-        this.role = role;
     }
 
     public Long getRoleId() {

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ua.skuhtin.model.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Long>{
+public interface UserRepository extends JpaRepository<Users, Long> {
     @Query("SELECT entity FROM Users entity WHERE entity.login = :login")
     Users getUserByLogin(@Param("login") String login);
 }
