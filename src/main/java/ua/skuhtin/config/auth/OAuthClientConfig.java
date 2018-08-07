@@ -20,11 +20,15 @@ import java.util.Objects;
 @EnableOAuth2Client
 public class OAuthClientConfig implements InitializingBean {
 
-    @Autowired
-    private OauthClientCredentials clientCredentials;
+    private final OauthClientCredentials clientCredentials;
 
     @Value("${oauth2.server}")
     private String oauthServer;
+
+    @Autowired
+    public OAuthClientConfig(OauthClientCredentials clientCredentials) {
+        this.clientCredentials = clientCredentials;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

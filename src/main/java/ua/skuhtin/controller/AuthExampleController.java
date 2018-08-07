@@ -20,11 +20,14 @@ import ua.skuhtin.security.SecurityUser;
 @RestController
 public class AuthExampleController {
 
-    @Autowired
-    private UserRepository usersRepository;
+    private final UserRepository usersRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public AuthExampleController(UserRepository usersRepository, ModelMapper modelMapper) {
+        this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @ApiOperation(value = "free access")
     @RequestMapping(value = "/hello", method = RequestMethod.GET)

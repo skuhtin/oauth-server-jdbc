@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class OAuth2ServiceImpl extends AbstractOauth2Service {
 
-    @Autowired
-    @Qualifier("oAuth2RestTemplate")
-    private OAuth2RestTemplate oauthRestTemplate;
+    private final OAuth2RestTemplate oauthRestTemplate;
 
     @Value("${oauth2.server}")
     private String oauthServer;
+
+    @Autowired
+    public OAuth2ServiceImpl(@Qualifier("oAuth2RestTemplate") OAuth2RestTemplate oauthRestTemplate) {
+        this.oauthRestTemplate = oauthRestTemplate;
+    }
 
     @Override
     public OAuth2AccessToken login(String login, String password) {
@@ -35,9 +38,11 @@ public class OAuth2ServiceImpl extends AbstractOauth2Service {
         return updateToken;
     }
 
+    /*
     @Override
     public ResponseEntity<HttpStatus> logOut(String token) {
         ResponseEntity responseEntity = oauthRestTemplate.getForEntity(oauthServer + "/oauth/logout/" + token, Object.class);
         return responseEntity;
     }
+    */
 }

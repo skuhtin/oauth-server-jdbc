@@ -12,13 +12,20 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.web.bind.annotation.*;
 import ua.skuhtin.client.OAuth2Service;
 import ua.skuhtin.dto.LoginDto;
+import ua.skuhtin.security.service.LogOutService;
 
 @RestController
 public class LoginController {
-    Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private final OAuth2Service oAuth2Service;
+    private final LogOutService logOutService;
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private OAuth2Service oAuth2Service;
+    public LoginController(OAuth2Service oAuth2Service,
+                           LogOutService logOutService) {
+        this.oAuth2Service = oAuth2Service;
+        this.logOutService = logOutService;
+    }
 
     @ApiOperation(value = "login controller")
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
@@ -31,7 +38,8 @@ public class LoginController {
     public ResponseEntity<HttpStatus> logOut() {
         OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         logger.info("Start for token: " + authentication.getTokenValue());
-        return oAuth2Service.logOut(authentication.getTokenValue());
+        HttpStatus status = logOutService.logout(authentication.getTokenValue());
+        return new ResponseEntity<>(status);
     }
 
     @ApiOperation(value = "refresh token")

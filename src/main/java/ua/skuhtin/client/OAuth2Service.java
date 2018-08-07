@@ -9,5 +9,8 @@ public interface OAuth2Service {
 
     OAuth2AccessToken refresh(String refreshToken);
 
-    ResponseEntity<HttpStatus> logOut(String token);
+    /**
+     * next generation service to use logOut service from separate oauth server
+     */
+    //ResponseEntity<HttpStatus> logOut(String token);
 }

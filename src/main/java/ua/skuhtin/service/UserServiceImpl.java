@@ -13,10 +13,14 @@ import java.util.Objects;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository usersRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private UserRepository usersRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public UserServiceImpl(UserRepository usersRepository, ModelMapper modelMapper) {
+        this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional
