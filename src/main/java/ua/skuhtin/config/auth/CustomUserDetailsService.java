@@ -10,13 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ua.skuhtin.dto.UserDto;
-import ua.skuhtin.model.Groups;
-import ua.skuhtin.model.Roles;
 import ua.skuhtin.model.Users;
 import ua.skuhtin.repository.UserRepository;
 import ua.skuhtin.security.SecurityUser;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
@@ -37,10 +37,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException();
         }
 
-        Collection<GrantedAuthority> auth = new ArrayList<>();
-        Set<Roles> rolesSet = new HashSet<>();
-        foundUser.getGroups().stream().map(Groups::getRoles).forEach(rolesSet::addAll);
-        rolesSet.forEach(role -> auth.add(new SimpleGrantedAuthority(role.getRole())));
+        Collection<GrantedAuthority> auth = foundUser.getGroups().stream()
+                .flatMap(group -> group.getRoles().stream())
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .collect(Collectors.toList());
         return new SecurityUser(new UserDto(foundUser), auth);
     }
 }

@@ -2,12 +2,9 @@ package ua.skuhtin.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
-import ua.skuhtin.model.Groups;
-import ua.skuhtin.model.Roles;
 import ua.skuhtin.model.Users;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,9 +32,10 @@ public class UserDto implements Serializable {
         this.login = users.getLogin();
         this.password = users.getPassword();
         this.enabled = users.getEnabled();
-        Set<Roles> roles = new HashSet<>();
-        users.getGroups().stream().map(Groups::getRoles).forEach(roles::addAll);
-        this.roles = roles.stream().map(RolesDto::new).collect(Collectors.toSet());
+        this.roles = users.getGroups().stream()
+                .flatMap(group -> group.getRoles().stream())
+                .map(RolesDto::new)
+                .collect(Collectors.toSet());
     }
 
     public String getLogin() {
